@@ -1,6 +1,7 @@
 package com.mastery.testspringproductmicroservice.controllers;
 
 
+import com.mastery.testspringproductmicroservice.dtos.response.WrongDateResponseDto;
 import com.mastery.testspringproductmicroservice.entities.Invoice;
 import com.mastery.testspringproductmicroservice.services.InvoiceService;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@AllArgsConstructor // dependencies are automatically injected because of Lombok's All arguments constructor
 public class InvoiceController {
     // here services are injected
     private final InvoiceService invoiceService;
@@ -25,18 +26,8 @@ public class InvoiceController {
     }
 
     @GetMapping("/wrong_data_invoices")
-    public List<Invoice> getWrongDataInvoices(){
-        // DTO needs to be created
-        ArrayList<Invoice> exp = new ArrayList<>();
-        Invoice invoice = new Invoice();
-
-        invoice.setAmount(BigDecimal.valueOf(10));
-        invoice.setDue(LocalDate.now());
-        invoice.setIssued(LocalDate.now());
-
-        exp.add(invoice);
-
-        return exp;
+    public List<WrongDateResponseDto> getWrongDataInvoices(){
+        return invoiceService.findWrongDateInvoices();
     }
 
     @GetMapping("/overpaid_invoices")
