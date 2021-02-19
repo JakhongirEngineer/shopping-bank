@@ -5,7 +5,6 @@ import com.mastery.testspringproductmicroservice.dtos.response.WrongDateResponse
 import com.mastery.testspringproductmicroservice.entities.Invoice;
 import com.mastery.testspringproductmicroservice.services.InvoiceService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,6 +43,4 @@ public class InvoiceController {
 
         return exp1;
     }
-
-
 }

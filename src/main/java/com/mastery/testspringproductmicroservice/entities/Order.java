@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity(name = "order_product") // order in SQL is a reserved work, therefore, name of a table is changed
+@Entity(name = "Order_product") // order in SQL is a reserved work, therefore, name of a table is changed
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

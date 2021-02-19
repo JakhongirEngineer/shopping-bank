@@ -15,6 +15,6 @@ public interface InvoiceRepository extends JpaRepository<Invoice,Integer> {
     @Query("SELECT i FROM Invoice i WHERE i.issued > i.due")
     Optional<List<Invoice>> findExpiredInvoices();
 
-    @Query("SELECT i.invoiceId, i.issued,o.orderId, o.date FROM Invoice i INNER JOIN order_product o ON i.invoiceId=o.orderId WHERE i.issued<o.date")
+    @Query("SELECT i.invoiceId, i.issued,o.orderId, o.date FROM Invoice i INNER JOIN Order_product o ON i.invoiceId=o.orderId WHERE i.issued<o.date")
     Optional<List<WrongDateResponseDto>> findWrongDataInvoices();
 }
