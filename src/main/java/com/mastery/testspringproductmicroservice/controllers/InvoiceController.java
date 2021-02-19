@@ -2,6 +2,9 @@ package com.mastery.testspringproductmicroservice.controllers;
 
 
 import com.mastery.testspringproductmicroservice.entities.Invoice;
+import com.mastery.testspringproductmicroservice.services.InvoiceService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,22 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class InvoiceController {
     // here services are injected
+    private final InvoiceService invoiceService;
+
     @GetMapping("/expired_invoices")
     public List<Invoice> getExpiredInvoices(){
-
-        // dummy data to hit the endpoint
-        ArrayList<Invoice> exp = new ArrayList<>();
-        Invoice invoice = new Invoice();
-
-        invoice.setAmount(BigDecimal.valueOf(10));
-        invoice.setDue(LocalDate.now());
-        invoice.setIssued(LocalDate.now());
-
-        exp.add(invoice);
-
-        return exp;
+        return invoiceService.findExpiredInvoices();
     }
 
     @GetMapping("/wrong_data_invoices")
