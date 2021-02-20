@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer,Integer> {
 
-    @Query("SELECT c from Customer c LEFT JOIN Order_product o ON c.customerId <> o.customer.customerId  WHERE EXTRACT(YEAR FROM o.date) =?1")
+    @Query("SELECT c from Customer c LEFT JOIN Order_product o ON c.customerId = o.customer.customerId  WHERE o.customer.customerId is NULL AND EXTRACT(YEAR FROM o.date) =?1  OR o.date IS NULL")
     Optional<List<Customer>> findCustomersWhoHaveNotOrderedInYear(int year);
 
 
