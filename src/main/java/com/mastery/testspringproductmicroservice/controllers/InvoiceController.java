@@ -1,6 +1,7 @@
 package com.mastery.testspringproductmicroservice.controllers;
 
 
+import com.mastery.testspringproductmicroservice.dtos.response.OverpaymentDto;
 import com.mastery.testspringproductmicroservice.dtos.response.WrongDateResponseDto;
 import com.mastery.testspringproductmicroservice.entities.Invoice;
 import com.mastery.testspringproductmicroservice.services.InvoiceService;
@@ -30,17 +31,7 @@ public class InvoiceController {
     }
 
     @GetMapping("/overpaid_invoices")
-    public List<Invoice> getOverpaidInvoices(){
-        // requires DTO
-        ArrayList<Invoice> exp1 = new ArrayList<>();
-        Invoice invoice = new Invoice();
-
-        invoice.setAmount(BigDecimal.valueOf(20));
-        invoice.setDue(LocalDate.now());
-        invoice.setIssued(LocalDate.now());
-
-        exp1.add(invoice);
-
-        return exp1;
+    public List<OverpaymentDto> getOverpaidInvoices(){
+        return invoiceService.findOverpaidInvoices();
     }
 }
