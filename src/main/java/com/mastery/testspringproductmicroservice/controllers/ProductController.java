@@ -1,11 +1,11 @@
 package com.mastery.testspringproductmicroservice.controllers;
 
+import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDto;
 import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProductDto;
 import com.mastery.testspringproductmicroservice.entities.Product;
 import com.mastery.testspringproductmicroservice.services.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,15 +24,8 @@ public class ProductController {
     }
 
     @GetMapping("/bulk_products")
-    public List<Product> getBulkProducts(){
-        // DUMMY DATA
-        ArrayList<Product> products = new ArrayList<>();
-        Product p = new Product();
-        p.setName("APPLE");
-        p.setDescription("an apple a day keeps the doctor away");
-        p.setPhoto("www.google.com/apple");
-        products.add(p);
-        return products;
+    public List<BulkProductDto> getBulkProducts(){
+        return productService.findBulkProducts();
     }
 
     @GetMapping("/product/list")

@@ -1,5 +1,6 @@
 package com.mastery.testspringproductmicroservice.services;
 
+import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDto;
 import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProductDto;
 import com.mastery.testspringproductmicroservice.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
@@ -16,5 +17,11 @@ public class ProductService {
         return productRepository
                 .findHighDemandProducts()
                 .orElseThrow(()-> new RuntimeException("error while querying with findHighDemandProducts()"));
+    }
+
+    public List<BulkProductDto> findBulkProducts(){
+        return productRepository
+                .findBulkProducts()
+                .orElseThrow(()->new RuntimeException("error while querying with findBulkProducts()"));
     }
 }
