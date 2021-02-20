@@ -2,6 +2,7 @@ package com.mastery.testspringproductmicroservice.controllers;
 
 import com.mastery.testspringproductmicroservice.dtos.request.OrderRequestDto;
 import com.mastery.testspringproductmicroservice.dtos.response.NumberOfProductsInYearDto;
+import com.mastery.testspringproductmicroservice.dtos.response.OrderDetailsDto;
 import com.mastery.testspringproductmicroservice.dtos.response.OrderResponseDto;
 import com.mastery.testspringproductmicroservice.dtos.response.OrderWithoutInvoiceDto;
 import com.mastery.testspringproductmicroservice.entities.Order;
@@ -10,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,5 +38,10 @@ public class OrderController {
     @PostMapping("/order")
     public ResponseEntity<OrderResponseDto> postOrder(@RequestBody OrderRequestDto orderRequestDto){ // DTO must be created
         return orderService.makeOrder(orderRequestDto);
+    }
+
+    @GetMapping("/order/details")
+    public ResponseEntity<OrderDetailsDto> getOrderDetailsByOrderId(@RequestParam("order_id") int orderId){
+        return orderService.findOrderDetailsByOrderId(orderId);
     }
 }

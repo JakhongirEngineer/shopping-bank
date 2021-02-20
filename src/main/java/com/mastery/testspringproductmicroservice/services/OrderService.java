@@ -2,6 +2,7 @@ package com.mastery.testspringproductmicroservice.services;
 
 import com.mastery.testspringproductmicroservice.dtos.request.OrderRequestDto;
 import com.mastery.testspringproductmicroservice.dtos.response.NumberOfProductsInYearDto;
+import com.mastery.testspringproductmicroservice.dtos.response.OrderDetailsDto;
 import com.mastery.testspringproductmicroservice.dtos.response.OrderResponseDto;
 import com.mastery.testspringproductmicroservice.dtos.response.OrderWithoutInvoiceDto;
 import com.mastery.testspringproductmicroservice.entities.*;
@@ -80,5 +81,20 @@ public class OrderService {
             orderResponseDto.setInvoiceId(-1);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(orderResponseDto);
         }
+    }
+
+    public ResponseEntity<OrderDetailsDto> findOrderDetailsByOrderId(int orderId) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isPresent()){
+            Optional<Detail> optionalDetail = detailRepository.findByOrder(optionalOrder.get());
+            if (optionalDetail.isPresent()){
+                Product product = optionalDetail.get().getProduct();
+                OrderDetailsDto orderDetailsDto = new OrderDetailsDto(optionalDetail.get(),product.getName());
+
+                return ResponseEntity.ok().body(orderDetailsDto);
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 }
