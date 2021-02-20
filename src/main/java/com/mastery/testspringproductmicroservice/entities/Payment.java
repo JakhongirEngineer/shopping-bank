@@ -23,6 +23,35 @@ public class Payment {
    @JoinColumn(name = "invoice_id")
    private Invoice invoice;
 
-    // many-to-one relationship with Invoice
+    public Integer getPaymentId() {
+        return paymentId;
+    }
 
+    public void setPaymentId(Integer paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
 }
