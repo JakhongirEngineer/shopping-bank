@@ -36,4 +36,13 @@ public class ProductService {
             return null;
         }
     }
+
+    public List<Product> findAllProducts(){
+        try {
+            return productRepository.findAll();
+
+        } catch (RuntimeException e){
+            return null;
+        }
+    }
 }

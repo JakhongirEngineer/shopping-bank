@@ -5,6 +5,8 @@ import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProduct
 import com.mastery.testspringproductmicroservice.entities.Product;
 import com.mastery.testspringproductmicroservice.services.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,15 +31,15 @@ public class ProductController {
     }
 
     @GetMapping("/product/list")
-    public List<Product> getListOfProducts(){
-        // DUMMY DATA
-        ArrayList<Product> products = new ArrayList<>();
-        Product p = new Product();
-        p.setName("product");
-        p.setDescription("list of products is called");
-        p.setPhoto("www.google.com/apple");
-        products.add(p);
-        return products;
+    public ResponseEntity<List<Product>> getListOfProducts(){
+        List<Product> products = productService.findAllProducts();
+        if (products.size()<=0){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        } else {
+            return ResponseEntity.ok()
+                    .body(products);
+        }
     }
 
     @GetMapping("/product/details")
