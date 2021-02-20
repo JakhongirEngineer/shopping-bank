@@ -1,6 +1,9 @@
 package com.mastery.testspringproductmicroservice.controllers;
 
+import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProductDto;
 import com.mastery.testspringproductmicroservice.entities.Product;
+import com.mastery.testspringproductmicroservice.services.ProductService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,20 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class ProductController {
     // services are injected here
+    private final ProductService productService;
 
     @GetMapping("/high_demand_products")
-    public List<Product> getHighDemandProducts(){
-
-        // DUMMY DATA
-        ArrayList<Product> products = new ArrayList<>();
-        Product p = new Product();
-        p.setName("laptop");
-        p.setDescription("blazingly fast modern laptop");
-        p.setPhoto("www.google.com/jibrishjibrish");
-        products.add(p);
-        return products;
+    public List<HighDemandProductDto> getHighDemandProducts(){
+        return productService.findHighDemandProducts();
     }
 
     @GetMapping("/bulk_products")
