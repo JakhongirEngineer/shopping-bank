@@ -1,5 +1,7 @@
 package com.mastery.testspringproductmicroservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -24,6 +26,7 @@ public class Order {
     private Invoice invoice;
 
     @OneToMany(mappedBy = "order")
+    @JsonIgnore
     private List<Detail> details;
 
     public Integer getOrderId() {

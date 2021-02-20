@@ -1,5 +1,6 @@
 package com.mastery.testspringproductmicroservice.controllers;
 
+import com.mastery.testspringproductmicroservice.dtos.request.PostProductRequestDto;
 import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDto;
 import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProductDto;
 import com.mastery.testspringproductmicroservice.entities.Product;
@@ -7,9 +8,7 @@ import com.mastery.testspringproductmicroservice.services.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -51,6 +50,11 @@ public class ProductController {
            return ResponseEntity.ok()
                    .body(product);
        }
+    }
+
+    @PostMapping("/product/add")
+    public ResponseEntity<String> addProduct(@RequestBody PostProductRequestDto postProductRequestDto){
+        return productService.addProduct(postProductRequestDto);
     }
 
 }

@@ -37,4 +37,16 @@ public class CategoryService {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
+
+    public ResponseEntity<String> addCategory(String name){
+        Category category = new Category();
+        category.setName(name);
+        try {
+            categoryRepository.save(category);
+            return ResponseEntity.status(HttpStatus.CREATED).body("SUCCESS");
+        } catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAILED");
+        }
+    }
 }

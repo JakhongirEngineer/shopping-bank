@@ -1,5 +1,7 @@
 package com.mastery.testspringproductmicroservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -25,9 +27,11 @@ public class Invoice {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Order order;
 
     @OneToMany(mappedBy = "invoice")
+    @JsonIgnore
     private List<Payment> payments;
 
     public Integer getInvoiceId() {

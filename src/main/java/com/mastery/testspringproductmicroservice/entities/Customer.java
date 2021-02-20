@@ -1,5 +1,7 @@
 package com.mastery.testspringproductmicroservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,6 +31,7 @@ public class Customer {
     // one to many relationship with Order table
     // bidirectional relationship increase consistency, therefore, I added it
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Order> orders;
 
     public Integer getCustomerId() {

@@ -1,19 +1,25 @@
 package com.mastery.testspringproductmicroservice.services;
 
+import com.mastery.testspringproductmicroservice.dtos.request.PostProductRequestDto;
 import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDto;
 import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProductDto;
+import com.mastery.testspringproductmicroservice.entities.Category;
 import com.mastery.testspringproductmicroservice.entities.Product;
+import com.mastery.testspringproductmicroservice.repositories.CategoryRepository;
 import com.mastery.testspringproductmicroservice.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<HighDemandProductDto> findHighDemandProducts(){
         return productRepository
@@ -47,4 +53,26 @@ public class ProductService {
         }
     }
 
+    public ResponseEntity<String> addProduct(PostProductRequestDto postProductRequestDto) {
+
+        Optional<Category> optionalCategory = categoryRepository.findById(postProductRequestDto.getCategoryId());
+
+        if (optionalCategory.isPresent()){
+            Product product = new Product();
+
+            product.setPhoto(postProductRequestDto.getPhoto());
+            product.setDescription(postProductRequestDto.getDescription());
+            product.setName(postProductRequestDto.getName());
+            product.setPrice(postProductRequestDto.getPrice());
+            product.setCategory(optionalCategory.get());
+            try {
+                productRepository.save(product);
+                return ResponseEntity.ok().body("SUCCESS");
+            } catch (RuntimeException e){
+                return ResponseEntity.badRequest().body("FAILED, product could not have been saved");
+            }
+        }
+
+        return ResponseEntity.badRequest().body("FAILED");
+    }
 }

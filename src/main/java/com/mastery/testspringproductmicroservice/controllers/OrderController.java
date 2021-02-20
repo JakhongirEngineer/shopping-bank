@@ -36,7 +36,7 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<OrderResponseDto> postOrder(@RequestBody OrderRequestDto orderRequestDto){ // DTO must be created
+    public ResponseEntity<OrderResponseDto> makeOrder(@RequestBody OrderRequestDto orderRequestDto){ // DTO must be created
         return orderService.makeOrder(orderRequestDto);
     }
 

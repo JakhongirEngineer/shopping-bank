@@ -1,5 +1,7 @@
 package com.mastery.testspringproductmicroservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,6 +30,7 @@ public class Product {
     private Category category;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<Detail> details;
 
     public Integer getProductId() {
