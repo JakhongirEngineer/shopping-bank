@@ -1,5 +1,6 @@
 package com.mastery.testspringproductmicroservice.services;
 
+import com.mastery.testspringproductmicroservice.dtos.response.CustomerLastOrderDto;
 import com.mastery.testspringproductmicroservice.entities.Customer;
 import com.mastery.testspringproductmicroservice.repositories.CustomerRepository;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,12 @@ public class CustomerService {
     public List<Customer> findCustomersWhoHaveNotOrderedInYear(int year){
         return customerRepository
                 .findCustomersWhoHaveNotOrderedInYear(year)
-                .orElseThrow(()->new RuntimeException("error while querying  with findCustomersWhoHaveNotOrderedInYear"));
+                .orElseThrow(()->new RuntimeException("error while querying  with findCustomersWhoHaveNotOrderedInYear()"));
+    }
+
+    public List<CustomerLastOrderDto> findCustomersLastOrder(){
+        return customerRepository
+                .findCustomersLastOrder()
+                .orElseThrow(()->new RuntimeException("error while querying with findCustomersLastOrder()"));
     }
 }

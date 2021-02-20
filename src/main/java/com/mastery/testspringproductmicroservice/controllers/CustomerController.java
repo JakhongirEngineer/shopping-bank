@@ -1,5 +1,6 @@
 package com.mastery.testspringproductmicroservice.controllers;
 
+import com.mastery.testspringproductmicroservice.dtos.response.CustomerLastOrderDto;
 import com.mastery.testspringproductmicroservice.entities.Customer;
 import com.mastery.testspringproductmicroservice.services.CustomerService;
 import lombok.AllArgsConstructor;
@@ -23,9 +24,10 @@ public class CustomerController {
         return customerService.findCustomersWhoHaveNotOrderedInYear(year);
     }
 
+
     @GetMapping("/customers_last_orders")
-    public List<Customer> getCustomersLastOrder(){
-        return new ArrayList<>();
+    public List<CustomerLastOrderDto> getCustomersLastOrder(){
+        return customerService.findCustomersLastOrder();
     }
 }
 
