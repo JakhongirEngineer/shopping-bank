@@ -4,6 +4,7 @@ import com.mastery.testspringproductmicroservice.entities.Category;
 import com.mastery.testspringproductmicroservice.entities.Product;
 import com.mastery.testspringproductmicroservice.services.CategoryService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -20,15 +21,9 @@ public class CategoryController {
     public List<Category> getListOfCategories(){
         return categoryService.getAllCategories();
     }
-    @GetMapping("/")
-    public Category getCategoryDetails(@RequestParam(name = "product_id") int productId){
-
-        var category = new Category();
-        var p = new Product();
-        p.setProductId(productId);
-        category.setProducts(List.of(p));
-
-        return category;
+    @GetMapping
+    public ResponseEntity<Category> getCategoryDetails(@RequestParam(name = "product_id") int productId){
+        return categoryService.getProductCategoryByProductId(productId);
     }
 
 }

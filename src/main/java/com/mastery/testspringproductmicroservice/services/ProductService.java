@@ -2,6 +2,7 @@ package com.mastery.testspringproductmicroservice.services;
 
 import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDto;
 import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProductDto;
+import com.mastery.testspringproductmicroservice.entities.Product;
 import com.mastery.testspringproductmicroservice.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,16 @@ public class ProductService {
         return productRepository
                 .findBulkProducts()
                 .orElseThrow(()->new RuntimeException("error while querying with findBulkProducts()"));
+    }
+
+    public Product findProductByProductId(int productId){
+        try {
+         return productRepository
+                    .findById(productId)
+                    .orElseThrow(()->new RuntimeException("error while querying with findProductByProductId(int productId)"));
+
+        } catch (RuntimeException e){
+            return null;
+        }
     }
 }
