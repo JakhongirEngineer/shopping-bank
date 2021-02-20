@@ -43,14 +43,15 @@ public class ProductController {
     }
 
     @GetMapping("/product/details")
-    public Product getProductDetails(@RequestParam(name = "product_id")int productId){
-       // DUMMY DATA
-        Product p = new Product();
-        p.setName("product");
-        p.setDescription("list of products is called");
-        p.setPhoto("www.google.com/apple");
-        p.setProductId(productId);
-        return p;
+    public ResponseEntity<Product> getProductDetails(@RequestParam(name = "product_id")int productId){
+       Product product = productService.findProductByProductId(productId);
+       if (product==null){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                   .body(null);
+       } else {
+           return ResponseEntity.ok()
+                   .body(product);
+       }
     }
 
 }
