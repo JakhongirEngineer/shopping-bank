@@ -27,7 +27,7 @@ public class CategoryController {
         return categoryService.getProductCategoryByProductId(productId);
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<String> addCategory(@RequestParam("name")String categoryName){
         String result = categoryService.addCategory(categoryName);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
