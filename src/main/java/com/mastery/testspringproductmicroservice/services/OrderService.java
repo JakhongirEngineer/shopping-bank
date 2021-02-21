@@ -1,10 +1,7 @@
 package com.mastery.testspringproductmicroservice.services;
 
 import com.mastery.testspringproductmicroservice.dtos.request.OrderRequestDto;
-import com.mastery.testspringproductmicroservice.dtos.response.NumberOfProductsInYearDto;
-import com.mastery.testspringproductmicroservice.dtos.response.OrderDetailsDto;
-import com.mastery.testspringproductmicroservice.dtos.response.OrderResponseDto;
-import com.mastery.testspringproductmicroservice.dtos.response.OrderWithoutInvoiceDto;
+import com.mastery.testspringproductmicroservice.dtos.response.*;
 import com.mastery.testspringproductmicroservice.entities.*;
 import com.mastery.testspringproductmicroservice.repositories.*;
 import lombok.AllArgsConstructor;
