@@ -8,10 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@AllArgsConstructor
+@AllArgsConstructor // dependencies are automatically injected because of Lombok's All arguments constructor
 @RestController
 public class PaymentController {
-    // services are injected here
+    // autowired fields are deliberately made final, so we can be sure that they are injected at runtime
     private final PaymentService paymentService;
     @PostMapping("/payment")
     public ResponseEntity<MakePaymentResponseDto> makePayment(@RequestParam("invoice_id") int invoiceId){ // DTO must be created;

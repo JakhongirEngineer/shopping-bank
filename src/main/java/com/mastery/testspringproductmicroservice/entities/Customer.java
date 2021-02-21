@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -30,8 +29,8 @@ public class Customer {
 
     // one to many relationship with Order table
     // bidirectional relationship increase consistency, therefore, I added it
-    @OneToMany(mappedBy = "customer")
-    @JsonIgnore
+    @OneToMany(mappedBy = "customer") // inverse side of the relationship between Customer and Order tables
+    @JsonIgnore // resolves infinite recursion
     private List<Order> orders;
 
     public Integer getCustomerId() {

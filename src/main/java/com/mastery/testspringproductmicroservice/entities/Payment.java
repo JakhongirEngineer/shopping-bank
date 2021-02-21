@@ -1,7 +1,5 @@
 package com.mastery.testspringproductmicroservice.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -21,7 +19,7 @@ public class Payment {
     @Column(precision = 8, scale = 2)
     private BigDecimal amount;
 
-   @ManyToOne(cascade = CascadeType.ALL)
+   @ManyToOne(cascade = CascadeType.ALL) // owners side of the relationship between Invoice and Payment tables
    @JoinColumn(name = "invoice_id")
    private Invoice invoice;
 

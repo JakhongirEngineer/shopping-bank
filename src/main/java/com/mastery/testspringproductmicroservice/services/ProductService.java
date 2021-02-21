@@ -2,7 +2,6 @@ package com.mastery.testspringproductmicroservice.services;
 
 import com.mastery.testspringproductmicroservice.dtos.request.PostProductRequestDto;
 import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDto;
-import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDtoImpl;
 import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProductDto;
 import com.mastery.testspringproductmicroservice.entities.Category;
 import com.mastery.testspringproductmicroservice.entities.Product;
@@ -15,9 +14,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
+@AllArgsConstructor // dependency injection via constructor is achieved by AllArgsConstructor Lombok annotation.
 @Service
-@AllArgsConstructor
 public class ProductService {
+    // autowired fields are deliberately made final, so we can be sure that they are injected at runtime
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
 

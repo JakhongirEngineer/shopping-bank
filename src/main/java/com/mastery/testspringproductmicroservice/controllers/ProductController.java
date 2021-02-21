@@ -2,7 +2,6 @@ package com.mastery.testspringproductmicroservice.controllers;
 
 import com.mastery.testspringproductmicroservice.dtos.request.PostProductRequestDto;
 import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDto;
-import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDtoImpl;
 import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProductDto;
 import com.mastery.testspringproductmicroservice.entities.Product;
 import com.mastery.testspringproductmicroservice.services.ProductService;
@@ -13,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor // dependencies are automatically injected because of Lombok's All arguments constructor
 @RestController
-@AllArgsConstructor
 public class ProductController {
-    // services are injected here
+    // autowired fields are deliberately made final, so we can be sure that they are injected at runtime
     private final ProductService productService;
 
     @GetMapping("/high_demand_products")

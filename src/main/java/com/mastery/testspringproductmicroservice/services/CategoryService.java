@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@AllArgsConstructor
+@AllArgsConstructor // dependency injection via constructor is achieved by AllArgsConstructor Lombok annotation.
 @Service
 public class CategoryService {
+    // autowired fields are deliberately made final, so we can be sure that they are injected at runtime
     private final CategoryRepository categoryRepository;
     private final ProductService productService;
 

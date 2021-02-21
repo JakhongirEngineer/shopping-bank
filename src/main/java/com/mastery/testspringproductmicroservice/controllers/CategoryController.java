@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor
-@RestController
+@AllArgsConstructor // dependency injection via constructor is achieved by AllArgsConstructor Lombok annotation.
 @RequestMapping("/category")
+@RestController
 public class CategoryController {
-    // services are injected here
+    // autowired fields are deliberately made final, so we can be sure that they are injected at runtime
     private final CategoryService categoryService;
 
     @GetMapping("/list")

@@ -25,12 +25,12 @@ public class Product {
     @Column(length = 1024)
     private String photo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL) // owning side of the relationship between Category and Product tables
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "product")
-    @JsonIgnore
+    @OneToMany(mappedBy = "product") // inverse side of the relationship between Detail and Product tables
+    @JsonIgnore // resolves infinite recursion
     private List<Detail> details;
 
     public Integer getProductId() {

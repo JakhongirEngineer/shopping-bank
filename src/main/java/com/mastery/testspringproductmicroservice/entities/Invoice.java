@@ -26,12 +26,12 @@ public class Invoice {
     private LocalDate due;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
-    @JsonIgnore
+    @JoinColumn(name = "order_id") // owning side of the relationship between Invoice and Order tables
+    @JsonIgnore // resolves infinite recursion
     private Order order;
 
-    @OneToMany(mappedBy = "invoice")
-    @JsonIgnore
+    @OneToMany(mappedBy = "invoice") // inverse side of the relationship between Invoice and Payment tables
+    @JsonIgnore // resolves infinite recursion
     private List<Payment> payments;
 
     public Integer getInvoiceId() {

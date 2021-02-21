@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor // dependencies are automatically injected because of Lombok's All arguments constructor
 @RestController
-@AllArgsConstructor
 public class OrderController {
-    // services are be injected here
+    // autowired fields are deliberately made final, so we can be sure that they are injected at runtime
     private final OrderService orderService;
 
     @GetMapping("/orders_without_details")

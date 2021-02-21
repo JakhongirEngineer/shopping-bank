@@ -10,11 +10,11 @@ public class Detail {
     @Column(name = "detail_id")
     private Integer detailId;
 
-    @ManyToOne
+    @ManyToOne // owning side of the relationship between Detail and Order tables
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne
+    @ManyToOne // owning side of the relationship between Detail and Product tables
     @JoinColumn(name = "product_id")
     private Product product;
 

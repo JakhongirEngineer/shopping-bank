@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@AllArgsConstructor // dependency injection via constructor is achieved by AllArgsConstructor Lombok annotation.
 @Service
-@AllArgsConstructor
 public class InvoiceService {
+    // autowired fields are deliberately made final, so we can be sure that they are injected at runtime
     private final InvoiceRepository invoiceRepository;
 
     public List<Invoice> findExpiredInvoices(){
@@ -31,7 +33,4 @@ public class InvoiceService {
                 .findOverpaidInvoices()
                 .orElseThrow(()-> new RuntimeException("error while querying with findOverpaidInvoices()"));
     }
-
-
-
 }

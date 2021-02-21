@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+
 @AllArgsConstructor // dependencies are automatically injected because of Lombok's All arguments constructor
+@RestController
 public class InvoiceController {
-    // here services are injected
+    // autowired fields are deliberately made final, so we can be sure that they are injected at runtime
     private final InvoiceService invoiceService;
 
     @GetMapping("/expired_invoices")

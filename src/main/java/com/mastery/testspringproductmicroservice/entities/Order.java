@@ -18,15 +18,15 @@ public class Order {
     private LocalDate date;
 
 //     many to one relationship with Customer
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL) // owning side of the relationship between Customer and Order tables
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToOne(mappedBy = "order")
+    @OneToOne(mappedBy = "order") // inverse side of the relationship between Invoice and Order tables
     private Invoice invoice;
 
-    @OneToMany(mappedBy = "order")
-    @JsonIgnore
+    @OneToMany(mappedBy = "order") // inverse side of the relationship between Detail and Order tables
+    @JsonIgnore // resolves infinite recursion
     private List<Detail> details;
 
     public Integer getOrderId() {
