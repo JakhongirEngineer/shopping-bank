@@ -2,13 +2,13 @@ package com.mastery.testspringproductmicroservice.controllers;
 
 import com.mastery.testspringproductmicroservice.dtos.request.CustomerRegisterRequestDto;
 import com.mastery.testspringproductmicroservice.dtos.response.CustomerLastOrderDto;
+import com.mastery.testspringproductmicroservice.dtos.response.CustomerLastOrderDtoImpl;
 import com.mastery.testspringproductmicroservice.entities.Customer;
 import com.mastery.testspringproductmicroservice.services.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor

@@ -2,6 +2,7 @@ package com.mastery.testspringproductmicroservice.services;
 
 import com.mastery.testspringproductmicroservice.dtos.request.CustomerRegisterRequestDto;
 import com.mastery.testspringproductmicroservice.dtos.response.CustomerLastOrderDto;
+import com.mastery.testspringproductmicroservice.dtos.response.CustomerLastOrderDtoImpl;
 import com.mastery.testspringproductmicroservice.entities.Customer;
 import com.mastery.testspringproductmicroservice.repositories.CustomerRepository;
 import lombok.AllArgsConstructor;
