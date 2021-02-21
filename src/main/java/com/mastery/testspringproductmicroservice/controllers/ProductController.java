@@ -2,6 +2,7 @@ package com.mastery.testspringproductmicroservice.controllers;
 
 import com.mastery.testspringproductmicroservice.dtos.request.PostProductRequestDto;
 import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDto;
+import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDtoImpl;
 import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProductDto;
 import com.mastery.testspringproductmicroservice.entities.Product;
 import com.mastery.testspringproductmicroservice.services.ProductService;

@@ -2,6 +2,7 @@ package com.mastery.testspringproductmicroservice.services;
 
 import com.mastery.testspringproductmicroservice.dtos.request.PostProductRequestDto;
 import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDto;
+import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDtoImpl;
 import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProductDto;
 import com.mastery.testspringproductmicroservice.entities.Category;
 import com.mastery.testspringproductmicroservice.entities.Product;
@@ -12,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service

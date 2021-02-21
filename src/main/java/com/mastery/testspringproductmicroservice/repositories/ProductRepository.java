@@ -13,20 +13,15 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Integer> {
 
-
-    @Query(value = "SELECT product.product_id, COUNT(*) AS total FROM detail INNER JOIN product \n" +
-            "ON detail.product_id=product.product_id\n" +
-            "GROUP BY product.product_id, detail.quantity\n" +
-            "HAVING COUNT(product.product_id)>10\n" +
-            "ORDER BY detail.quantity DESC",
-           nativeQuery = true)
+    @Query("SELECT p.productId AS productId, COUNT(p.productId) AS total " +
+            "FROM Detail d INNER JOIN Product p ON d.product.productId=p.productId " +
+            "GROUP BY p.productId, d.quantity HAVING COUNT(p.productId)>10 ORDER BY d.quantity DESC")
     Optional<List<HighDemandProductDto>> findHighDemandProducts();
 
 
-    @Query(value = "SELECT product.price, product.product_id FROM product INNER JOIN\n" +
-            "detail ON detail.product_id = product.product_id\n" +
-            "GROUP BY product.product_id, detail.quantity\n" +
-            "HAVING AVG(detail.quantity)>=8\n" +
-            "ORDER BY detail.quantity",nativeQuery = true)
+
+    @Query("SELECT distinct p.price AS price,p.productId AS productId " +
+            "FROM Product p INNER JOIN Detail d ON d.product.productId=p.productId " +
+            "GROUP BY p.productId HAVING AVG(d.quantity)>=8")
     Optional<List<BulkProductDto>> findBulkProducts();
 }
