@@ -1,4 +1,4 @@
-package com.mastery.testspringproductmicroservice.entities;
+package com.mastery.testspringproductmicroservice.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

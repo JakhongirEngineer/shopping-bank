@@ -1,13 +1,8 @@
-package com.mastery.testspringproductmicroservice.dtos.response;
+package com.mastery.testspringproductmicroservice.models.dtos.response;
 
-import com.mastery.testspringproductmicroservice.entities.Invoice;
-import com.mastery.testspringproductmicroservice.entities.Payment;
+import com.mastery.testspringproductmicroservice.models.entities.Invoice;
+import com.mastery.testspringproductmicroservice.models.entities.Payment;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

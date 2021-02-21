@@ -1,4 +1,4 @@
-package com.mastery.testspringproductmicroservice.dtos.response;
+package com.mastery.testspringproductmicroservice.models.dtos.response;
 
 public class NumberOfProductsInYearDtoImpl implements NumberOfProductsInYearDto{
     private String country;

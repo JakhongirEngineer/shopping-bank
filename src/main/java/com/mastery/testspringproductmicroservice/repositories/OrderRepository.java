@@ -1,9 +1,8 @@
 package com.mastery.testspringproductmicroservice.repositories;
 
-import com.mastery.testspringproductmicroservice.dtos.response.NumberOfProductsInYearDto;
-import com.mastery.testspringproductmicroservice.dtos.response.OrderWithoutInvoiceDto;
-import com.mastery.testspringproductmicroservice.dtos.response.OrderWithoutInvoiceDtoImpl;
-import com.mastery.testspringproductmicroservice.entities.Order;
+import com.mastery.testspringproductmicroservice.models.dtos.response.NumberOfProductsInYearDto;
+import com.mastery.testspringproductmicroservice.models.dtos.response.OrderWithoutInvoiceDto;
+import com.mastery.testspringproductmicroservice.models.entities.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

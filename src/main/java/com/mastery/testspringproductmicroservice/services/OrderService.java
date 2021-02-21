@@ -1,16 +1,17 @@
 package com.mastery.testspringproductmicroservice.services;
 
-import com.mastery.testspringproductmicroservice.dtos.request.OrderRequestDto;
-import com.mastery.testspringproductmicroservice.dtos.response.*;
-import com.mastery.testspringproductmicroservice.entities.*;
+import com.mastery.testspringproductmicroservice.models.dtos.request.OrderRequestDto;
+import com.mastery.testspringproductmicroservice.models.dtos.response.*;
+import com.mastery.testspringproductmicroservice.exceptions.ResourceNotFoundException;
+import com.mastery.testspringproductmicroservice.exceptions.ServerErrorException;
+import com.mastery.testspringproductmicroservice.models.entities.*;
 import com.mastery.testspringproductmicroservice.repositories.*;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,22 +29,22 @@ public class OrderService {
     public List<Order> findOrdersWithoutDetailsBeforeSeptember2016(){
         return orderRepository
                 .findOrdersWithoutDetailsBeforeSeptember2016()
-                .orElseThrow(()->new RuntimeException("error while querying findOrdersWithoutDetailsBeforeSeptember2016"));
+                .orElseThrow(()->new ServerErrorException("unable to find orders without details before september 2016", LocalDateTime.now()));
     }
 
     public List<NumberOfProductsInYearDto> findNumberOfProductsInYear(int year){
         return orderRepository
                 .findNumberOfProductsInYear(year)
-                .orElseThrow(()->new RuntimeException("error while querying findNumberOfProductsInYear(int year)"));
+                .orElseThrow(()->new ServerErrorException("unable to find number of products in " + year+" year",LocalDateTime.now()));
     }
 
     public List<OrderWithoutInvoiceDto> findOrdersWithoutInvoice(){
         return orderRepository
                 .findOrdersWithoutInvoice()
-                .orElseThrow(()->new RuntimeException("error while querying with findOrdersWithoutInvoice()"));
+                .orElseThrow(()->new ServerErrorException("unable to find orders without invoice", LocalDateTime.now()));
     }
 
-    public ResponseEntity<OrderResponseDto> makeOrder(OrderRequestDto orderRequestDto) {
+    public OrderResponseDto makeOrder(OrderRequestDto orderRequestDto) {
 
         Optional<Customer> optionalCustomer = customerRepository.findById(orderRequestDto.getCustomerId());
         Optional<Product> optionalProduct = productRepository.findById(orderRequestDto.getProductId());
@@ -77,13 +78,13 @@ public class OrderService {
                 OrderResponseDto orderResponseDto = new OrderResponseDto();
                 orderResponseDto.setStatus("SUCCESS");
                 orderResponseDto.setInvoiceId(invoice.getInvoiceId());
-                return ResponseEntity.ok().body(orderResponseDto);
+                return orderResponseDto;
             } catch (RuntimeException e){
                 // if there is an error while persisting, FAILED status is returned
                 OrderResponseDto failedToPersist = new OrderResponseDto();
                 failedToPersist.setStatus("FAILED");
                 failedToPersist.setInvoiceId(-1);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(failedToPersist);
+                return failedToPersist;
             }
 
         } else {
@@ -91,11 +92,12 @@ public class OrderService {
             OrderResponseDto failedToFindCustomerOrProduct = new OrderResponseDto();
             failedToFindCustomerOrProduct.setStatus("FAILED");
             failedToFindCustomerOrProduct.setInvoiceId(-1);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(failedToFindCustomerOrProduct);
+
+            return failedToFindCustomerOrProduct;
         }
     }
 
-    public ResponseEntity<OrderDetailsDto> findOrderDetailsByOrderId(int orderId) {
+    public OrderDetailsDto findOrderDetailsByOrderId(int orderId) {
         Optional<Order> optionalOrder = orderRepository.findById(orderId);
         // order details can be obtained if and only if the order exists
         if (optionalOrder.isPresent()){
@@ -103,10 +105,10 @@ public class OrderService {
             if (optionalDetail.isPresent()){
                 Product product = optionalDetail.get().getProduct();
                 OrderDetailsDto orderDetailsDto = new OrderDetailsDto(optionalDetail.get(),product.getName());
-                return ResponseEntity.ok().body(orderDetailsDto);
+                return orderDetailsDto;
             }
         }
         // if order does not exist, status NOT_FOUND is returned
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        throw new ResourceNotFoundException("unable to find order details by orderId: " + orderId);
     }
 }

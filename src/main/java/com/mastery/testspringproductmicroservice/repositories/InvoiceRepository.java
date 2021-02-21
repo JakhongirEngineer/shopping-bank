@@ -1,8 +1,8 @@
 package com.mastery.testspringproductmicroservice.repositories;
 
-import com.mastery.testspringproductmicroservice.dtos.response.OverpaymentDto;
-import com.mastery.testspringproductmicroservice.dtos.response.WrongDateResponseDto;
-import com.mastery.testspringproductmicroservice.entities.Invoice;
+import com.mastery.testspringproductmicroservice.models.dtos.response.OverpaymentDto;
+import com.mastery.testspringproductmicroservice.models.dtos.response.WrongDateResponseDto;
+import com.mastery.testspringproductmicroservice.models.entities.Invoice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

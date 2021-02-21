@@ -1,8 +1,8 @@
 package com.mastery.testspringproductmicroservice.repositories;
 
-import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDto;
-import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProductDto;
-import com.mastery.testspringproductmicroservice.entities.Product;
+import com.mastery.testspringproductmicroservice.models.dtos.response.BulkProductDto;
+import com.mastery.testspringproductmicroservice.models.dtos.response.HighDemandProductDto;
+import com.mastery.testspringproductmicroservice.models.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

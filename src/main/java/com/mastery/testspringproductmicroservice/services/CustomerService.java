@@ -1,13 +1,15 @@
 package com.mastery.testspringproductmicroservice.services;
 
-import com.mastery.testspringproductmicroservice.dtos.request.CustomerRegisterRequestDto;
-import com.mastery.testspringproductmicroservice.dtos.response.CustomerLastOrderDto;
-import com.mastery.testspringproductmicroservice.entities.Customer;
+import com.mastery.testspringproductmicroservice.models.dtos.request.CustomerRegisterRequestDto;
+import com.mastery.testspringproductmicroservice.models.dtos.response.CustomerLastOrderDto;
+import com.mastery.testspringproductmicroservice.models.entities.Customer;
+import com.mastery.testspringproductmicroservice.exceptions.FailedToSaveException;
+import com.mastery.testspringproductmicroservice.exceptions.ServerErrorException;
 import com.mastery.testspringproductmicroservice.repositories.CustomerRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor // dependency injection via constructor is achieved by AllArgsConstructor Lombok annotation.
@@ -19,16 +21,16 @@ public class CustomerService {
     public List<Customer> findCustomersWhoHaveNotOrderedInYear(int year){
         return customerRepository
                 .findCustomersWhoHaveNotOrderedInYear(year)
-                .orElseThrow(()->new RuntimeException("error while querying  with findCustomersWhoHaveNotOrderedInYear()"));
+                .orElseThrow(()->new ServerErrorException("unable to query users who have not ordered in " + year +" year", LocalDateTime.now()));
     }
 
     public List<CustomerLastOrderDto> findCustomersLastOrder(){
         return customerRepository
                 .findCustomersLastOrder()
-                .orElseThrow(()->new RuntimeException("error while querying with findCustomersLastOrder()"));
+                .orElseThrow(()->new ServerErrorException("unable to find last orders of customers",LocalDateTime.now()));
     }
 
-    public ResponseEntity<String> registerCustomer(CustomerRegisterRequestDto customerRegisterRequestDto) {
+    public String registerCustomer(CustomerRegisterRequestDto customerRegisterRequestDto) {
         Customer customer = new Customer();
         customer.setAddress(customerRegisterRequestDto.getAddress());
         customer.setCountry(customerRegisterRequestDto.getCountry());
@@ -36,9 +38,9 @@ public class CustomerService {
         customer.setName(customerRegisterRequestDto.getName());
         try {
             customerRepository.save(customer);
-            return ResponseEntity.ok().body("SUCCESS");
+            return "SUCCESS";
         }catch (RuntimeException e){
-            return ResponseEntity.badRequest().body("FAILED");
+            throw new FailedToSaveException("FAILED",customerRegisterRequestDto.getName(),LocalDateTime.now());
         }
     }
 }

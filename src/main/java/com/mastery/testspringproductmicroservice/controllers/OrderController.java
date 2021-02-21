@@ -1,10 +1,11 @@
 package com.mastery.testspringproductmicroservice.controllers;
 
-import com.mastery.testspringproductmicroservice.dtos.request.OrderRequestDto;
-import com.mastery.testspringproductmicroservice.dtos.response.*;
-import com.mastery.testspringproductmicroservice.entities.Order;
+import com.mastery.testspringproductmicroservice.models.dtos.request.OrderRequestDto;
+import com.mastery.testspringproductmicroservice.models.dtos.response.*;
+import com.mastery.testspringproductmicroservice.models.entities.Order;
 import com.mastery.testspringproductmicroservice.services.OrderService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,28 +18,37 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping("/orders_without_details")
-    public List<Order> getOrdersWithoutDetailsBeforeSeptember2016(){
-        return orderService.findOrdersWithoutDetailsBeforeSeptember2016();
+    public ResponseEntity<List<Order>> getOrdersWithoutDetailsBeforeSeptember2016(){
+        List<Order> orders = orderService.findOrdersWithoutDetailsBeforeSeptember2016();
+        return new ResponseEntity<>(orders, HttpStatus.FOUND);
     }
 
     // the requirement was to retrieve data in 2016, but I generalized it, so the endpoint supports any year.
     @GetMapping("/number_of_products_in_year/{year}")
-    public List<NumberOfProductsInYearDto> getNumberOfProductsInYearByCountry(@PathVariable("year") int year){
-        return orderService.findNumberOfProductsInYear(year);
+    public ResponseEntity<List<NumberOfProductsInYearDto>> getNumberOfProductsInYearByCountry(@PathVariable("year") int year){
+        List<NumberOfProductsInYearDto> numberOfProductsInYearDtos = orderService.findNumberOfProductsInYear(year);
+        return new ResponseEntity<>(numberOfProductsInYearDtos, HttpStatus.FOUND);
     }
 
     @GetMapping("/orders_without_invoices")
-    public List<OrderWithoutInvoiceDto> getOrdersWithoutInvoices(){
-       return orderService.findOrdersWithoutInvoice();
+    public ResponseEntity<List<OrderWithoutInvoiceDto>> getOrdersWithoutInvoices(){
+        List<OrderWithoutInvoiceDto> orderWithoutInvoiceDtos = orderService.findOrdersWithoutInvoice();
+        return new ResponseEntity<>(orderWithoutInvoiceDtos,HttpStatus.FOUND);
     }
 
     @PostMapping("/order")
     public ResponseEntity<OrderResponseDto> makeOrder(@RequestBody OrderRequestDto orderRequestDto){ // DTO must be created
-        return orderService.makeOrder(orderRequestDto);
+        OrderResponseDto orderResponseDto = orderService.makeOrder(orderRequestDto);
+        if (orderResponseDto.getInvoiceId()==-1){
+            return new ResponseEntity<>(orderResponseDto,HttpStatus.INTERNAL_SERVER_ERROR);
+        } else {
+            return new ResponseEntity<>(orderResponseDto, HttpStatus.CREATED);
+        }
     }
 
     @GetMapping("/order/details")
     public ResponseEntity<OrderDetailsDto> getOrderDetailsByOrderId(@RequestParam("order_id") int orderId){
-        return orderService.findOrderDetailsByOrderId(orderId);
+        OrderDetailsDto orderDetailsDto = orderService.findOrderDetailsByOrderId(orderId);
+        return new ResponseEntity<>(orderDetailsDto,HttpStatus.FOUND);
     }
 }

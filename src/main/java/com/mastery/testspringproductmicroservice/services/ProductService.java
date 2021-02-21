@@ -1,16 +1,19 @@
 package com.mastery.testspringproductmicroservice.services;
 
-import com.mastery.testspringproductmicroservice.dtos.request.PostProductRequestDto;
-import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDto;
-import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProductDto;
-import com.mastery.testspringproductmicroservice.entities.Category;
-import com.mastery.testspringproductmicroservice.entities.Product;
+import com.mastery.testspringproductmicroservice.models.dtos.request.PostProductRequestDto;
+import com.mastery.testspringproductmicroservice.models.dtos.response.BulkProductDto;
+import com.mastery.testspringproductmicroservice.models.dtos.response.HighDemandProductDto;
+import com.mastery.testspringproductmicroservice.models.entities.Category;
+import com.mastery.testspringproductmicroservice.models.entities.Product;
+import com.mastery.testspringproductmicroservice.exceptions.FailedToSaveException;
+import com.mastery.testspringproductmicroservice.exceptions.ResourceNotFoundException;
+import com.mastery.testspringproductmicroservice.exceptions.ServerErrorException;
 import com.mastery.testspringproductmicroservice.repositories.CategoryRepository;
 import com.mastery.testspringproductmicroservice.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,36 +28,30 @@ public class ProductService {
     public List<HighDemandProductDto> findHighDemandProducts(){
         return productRepository
                 .findHighDemandProducts()
-                .orElseThrow(()-> new RuntimeException("error while querying with findHighDemandProducts()"));
+                .orElseThrow(()-> new ResourceNotFoundException("unable to find high demand products"));
     }
 
     public List<BulkProductDto> findBulkProducts(){
         return productRepository
                 .findBulkProducts()
-                .orElseThrow(()->new RuntimeException("error while querying with findBulkProducts()"));
+                .orElseThrow(()->new ResourceNotFoundException("unable to find bulk products"));
     }
 
     public Product findProductByProductId(int productId){
-        try {
          return productRepository
                     .findById(productId)
-                    .orElseThrow(()->new RuntimeException("error while querying with findProductByProductId(int productId)"));
-
-        } catch (RuntimeException e){
-            return null;
-        }
+                    .orElseThrow(()->new ServerErrorException("unable to find a product by productId", LocalDateTime.now()));
     }
 
     public List<Product> findAllProducts(){
         try {
             return productRepository.findAll();
-
         } catch (RuntimeException e){
-            return null;
+            throw new ResourceNotFoundException("unable to find list of products");
         }
     }
 
-    public ResponseEntity<String> addProduct(PostProductRequestDto postProductRequestDto) {
+    public String addProduct(PostProductRequestDto postProductRequestDto) {
 
         Optional<Category> optionalCategory = categoryRepository.findById(postProductRequestDto.getCategoryId());
 
@@ -68,12 +65,13 @@ public class ProductService {
             product.setCategory(optionalCategory.get());
             try {
                 productRepository.save(product);
-                return ResponseEntity.ok().body("SUCCESS");
+                return "SUCCESS";
             } catch (RuntimeException e){
-                return ResponseEntity.badRequest().body("FAILED, product could not have been saved");
+                throw new FailedToSaveException("failed to save a product",postProductRequestDto.getName(),LocalDateTime.now());
+
             }
         }
 
-        return ResponseEntity.badRequest().body("FAILED");
+        throw new FailedToSaveException("failed to save a product",postProductRequestDto.getName(),LocalDateTime.now());
     }
 }

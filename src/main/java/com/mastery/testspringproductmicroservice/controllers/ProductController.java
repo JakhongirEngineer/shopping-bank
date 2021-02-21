@@ -1,9 +1,9 @@
 package com.mastery.testspringproductmicroservice.controllers;
 
-import com.mastery.testspringproductmicroservice.dtos.request.PostProductRequestDto;
-import com.mastery.testspringproductmicroservice.dtos.response.BulkProductDto;
-import com.mastery.testspringproductmicroservice.dtos.response.HighDemandProductDto;
-import com.mastery.testspringproductmicroservice.entities.Product;
+import com.mastery.testspringproductmicroservice.models.dtos.request.PostProductRequestDto;
+import com.mastery.testspringproductmicroservice.models.dtos.response.BulkProductDto;
+import com.mastery.testspringproductmicroservice.models.dtos.response.HighDemandProductDto;
+import com.mastery.testspringproductmicroservice.models.entities.Product;
 import com.mastery.testspringproductmicroservice.services.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,42 +19,32 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/high_demand_products")
-    public List<HighDemandProductDto> getHighDemandProducts(){
-        return productService.findHighDemandProducts();
+    public ResponseEntity<List<HighDemandProductDto>> getHighDemandProducts(){
+        List<HighDemandProductDto> highDemandProductDtos = productService.findHighDemandProducts();
+        return new ResponseEntity<>(highDemandProductDtos,HttpStatus.FOUND);
     }
 
     @GetMapping("/bulk_products")
-    public List<BulkProductDto> getBulkProducts(){
-        return productService.findBulkProducts();
+    public ResponseEntity<List<BulkProductDto>> getBulkProducts(){
+        List<BulkProductDto> bulkProductDtos = productService.findBulkProducts();
+        return new ResponseEntity<>(bulkProductDtos, HttpStatus.FOUND);
     }
 
     @GetMapping("/product/list")
     public ResponseEntity<List<Product>> getListOfProducts(){
         List<Product> products = productService.findAllProducts();
-        if (products.size()<=0){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
-        } else {
-            return ResponseEntity.ok()
-                    .body(products);
-        }
+        return new ResponseEntity<>(products,HttpStatus.FOUND);
     }
 
     @GetMapping("/product/details")
     public ResponseEntity<Product> getProductDetails(@RequestParam(name = "product_id")int productId){
        Product product = productService.findProductByProductId(productId);
-       if (product==null){
-           return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                   .body(null);
-       } else {
-           return ResponseEntity.ok()
-                   .body(product);
-       }
+       return new ResponseEntity<>(product,HttpStatus.FOUND);
     }
 
     @PostMapping("/product/add")
     public ResponseEntity<String> addProduct(@RequestBody PostProductRequestDto postProductRequestDto){
-        return productService.addProduct(postProductRequestDto);
+        String result = productService.addProduct(postProductRequestDto);
+        return new ResponseEntity<>(result,HttpStatus.CREATED);
     }
-
 }

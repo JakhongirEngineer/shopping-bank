@@ -1,4 +1,4 @@
-package com.mastery.testspringproductmicroservice.entities;
+package com.mastery.testspringproductmicroservice.models.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

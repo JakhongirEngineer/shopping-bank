@@ -1,8 +1,7 @@
 package com.mastery.testspringproductmicroservice.repositories;
 
-import com.mastery.testspringproductmicroservice.dtos.response.CustomerLastOrderDto;
-import com.mastery.testspringproductmicroservice.dtos.response.CustomerLastOrderDtoImpl;
-import com.mastery.testspringproductmicroservice.entities.Customer;
+import com.mastery.testspringproductmicroservice.models.dtos.response.CustomerLastOrderDto;
+import com.mastery.testspringproductmicroservice.models.entities.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -1,8 +1,6 @@
-package com.mastery.testspringproductmicroservice.dtos.response;
+package com.mastery.testspringproductmicroservice.models.dtos.response;
 
-import com.mastery.testspringproductmicroservice.entities.Detail;
-
-import java.time.LocalDate;
+import com.mastery.testspringproductmicroservice.models.entities.Detail;
 
 public class OrderDetailsDto {
     private String productName;

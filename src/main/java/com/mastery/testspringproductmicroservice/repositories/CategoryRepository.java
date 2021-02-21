@@ -1,7 +1,7 @@
 package com.mastery.testspringproductmicroservice.repositories;
 
-import com.mastery.testspringproductmicroservice.entities.Category;
-import com.mastery.testspringproductmicroservice.entities.Product;
+import com.mastery.testspringproductmicroservice.models.entities.Category;
+import com.mastery.testspringproductmicroservice.models.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

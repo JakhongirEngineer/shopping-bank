@@ -1,13 +1,15 @@
 package com.mastery.testspringproductmicroservice.services;
 
-import com.mastery.testspringproductmicroservice.entities.Category;
-import com.mastery.testspringproductmicroservice.entities.Product;
+import com.mastery.testspringproductmicroservice.models.entities.Category;
+import com.mastery.testspringproductmicroservice.models.entities.Product;
+import com.mastery.testspringproductmicroservice.exceptions.FailedToSaveException;
+import com.mastery.testspringproductmicroservice.exceptions.ResourceNotFoundException;
 import com.mastery.testspringproductmicroservice.repositories.CategoryRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor // dependency injection via constructor is achieved by AllArgsConstructor Lombok annotation.
@@ -25,29 +27,28 @@ public class CategoryService {
         Product product = productService.findProductByProductId(productId);
 
         if (product==null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
+            throw new ResourceNotFoundException("Product with the id: "+productId+"+not found");
         }
         Category category = categoryRepository
                 .findCategoryByProducts(product)
-                .orElseThrow(()->new RuntimeException("error while querying with getProductCategoryByProductId(int productId)"));
+                .orElseThrow(()->new ResourceNotFoundException("Category not found"));
         if (category!=null){
             return ResponseEntity.ok()
                     .body(category);
         } else {
-            return ResponseEntity.badRequest().body(null);
+            throw new ResourceNotFoundException("Category not found");
         }
     }
 
 
-    public ResponseEntity<String> addCategory(String name){
+    public String addCategory(String name){
         Category category = new Category();
         category.setName(name);
         try {
             categoryRepository.save(category);
-            return ResponseEntity.status(HttpStatus.CREATED).body("SUCCESS");
+            return "SUCCESS";
         } catch (RuntimeException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAILED");
+            throw new FailedToSaveException("unable to add category",name, LocalDateTime.now());
         }
     }
 }

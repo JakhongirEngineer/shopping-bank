@@ -1,7 +1,7 @@
 package com.mastery.testspringproductmicroservice.repositories;
 
-import com.mastery.testspringproductmicroservice.entities.Detail;
-import com.mastery.testspringproductmicroservice.entities.Order;
+import com.mastery.testspringproductmicroservice.models.entities.Detail;
+import com.mastery.testspringproductmicroservice.models.entities.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

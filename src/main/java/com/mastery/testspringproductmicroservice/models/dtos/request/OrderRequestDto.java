@@ -1,4 +1,4 @@
-package com.mastery.testspringproductmicroservice.dtos.request;
+package com.mastery.testspringproductmicroservice.models.dtos.request;
 
 import lombok.Data;
 

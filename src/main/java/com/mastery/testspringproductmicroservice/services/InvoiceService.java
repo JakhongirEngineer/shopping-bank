@@ -1,12 +1,14 @@
 package com.mastery.testspringproductmicroservice.services;
 
-import com.mastery.testspringproductmicroservice.dtos.response.OverpaymentDto;
-import com.mastery.testspringproductmicroservice.dtos.response.WrongDateResponseDto;
-import com.mastery.testspringproductmicroservice.entities.Invoice;
+import com.mastery.testspringproductmicroservice.models.dtos.response.OverpaymentDto;
+import com.mastery.testspringproductmicroservice.models.dtos.response.WrongDateResponseDto;
+import com.mastery.testspringproductmicroservice.models.entities.Invoice;
+import com.mastery.testspringproductmicroservice.exceptions.ServerErrorException;
 import com.mastery.testspringproductmicroservice.repositories.InvoiceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -19,18 +21,18 @@ public class InvoiceService {
     public List<Invoice> findExpiredInvoices(){
         return invoiceRepository
                 .findExpiredInvoices()
-                .orElseThrow(()->new RuntimeException("error while querying with findExpiredInvoices()"));
+                .orElseThrow(()->new ServerErrorException("unable to find expired invoices", LocalDateTime.now()));
     }
 
     public List<WrongDateResponseDto> findWrongDateInvoices(){
         return invoiceRepository
                 .findWrongDataInvoices()
-                .orElseThrow(()->new RuntimeException("error while querying with findWrongDateInvoices()"));
+                .orElseThrow(()->new ServerErrorException("unable to find wrong date invoices",LocalDateTime.now()));
     }
 
     public List<OverpaymentDto> findOverpaidInvoices(){
         return invoiceRepository
                 .findOverpaidInvoices()
-                .orElseThrow(()-> new RuntimeException("error while querying with findOverpaidInvoices()"));
+                .orElseThrow(()-> new ServerErrorException("unable to find overpaid invoices", LocalDateTime.now()));
     }
 }

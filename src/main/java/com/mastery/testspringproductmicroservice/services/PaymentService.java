@@ -1,13 +1,12 @@
 package com.mastery.testspringproductmicroservice.services;
 
-import com.mastery.testspringproductmicroservice.dtos.response.MakePaymentResponseDto;
-import com.mastery.testspringproductmicroservice.entities.Invoice;
-import com.mastery.testspringproductmicroservice.entities.Payment;
+import com.mastery.testspringproductmicroservice.models.dtos.response.MakePaymentResponseDto;
+import com.mastery.testspringproductmicroservice.models.entities.Invoice;
+import com.mastery.testspringproductmicroservice.models.entities.Payment;
+import com.mastery.testspringproductmicroservice.exceptions.ResourceNotFoundException;
 import com.mastery.testspringproductmicroservice.repositories.InvoiceRepository;
 import com.mastery.testspringproductmicroservice.repositories.PaymentRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,7 +20,7 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final InvoiceRepository invoiceRepository;
 
-    public ResponseEntity<MakePaymentResponseDto> makePayment(int invoiceId) {
+    public MakePaymentResponseDto makePayment(int invoiceId) {
         Optional<Invoice> optionalInvoice = invoiceRepository.findById(invoiceId);
         // payment is acceptable if and only if there is a invoice with the provided invoiceId in the database
         if (optionalInvoice.isPresent()){
@@ -32,23 +31,20 @@ public class PaymentService {
                 payment.setAmount(optionalInvoice.get().getAmount());
                 paymentRepository.save(payment);
 
-                MakePaymentResponseDto success = new MakePaymentResponseDto(payment,"SUCCESS");
-                return ResponseEntity.ok().body(success);
+                return new MakePaymentResponseDto(payment,"SUCCESS");
 
             } catch (RuntimeException e){
-                MakePaymentResponseDto failed = new MakePaymentResponseDto(new Payment(),"FAILED");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(failed);
+                return new MakePaymentResponseDto(new Payment(),"FAILED");
             }
         }
-        MakePaymentResponseDto failed= new MakePaymentResponseDto(new Payment(),"FAILED");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(failed);
+        return new MakePaymentResponseDto(new Payment(),"FAILED");
     }
 
-    public ResponseEntity<Payment> findPaymentDetailsByPaymentId(int paymentId){
+    public Payment findPaymentDetailsByPaymentId(int paymentId){
         Optional<Payment> optionalPayment = paymentRepository.findById(paymentId);
         if (optionalPayment.isPresent()){
-            return ResponseEntity.ok().body(optionalPayment.get());
+            return optionalPayment.get();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        throw new ResourceNotFoundException("payment with the paymentId: "+ paymentId +" is not found");
     }
 }
